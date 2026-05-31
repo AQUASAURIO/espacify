@@ -1,4 +1,4 @@
-import jwt from 'jose';
+import { SignJWT, jwtVerify } from 'jose';
 
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || 'espacify-super-secret-key-change-in-production'
@@ -18,7 +18,7 @@ export interface JWTPayload {
 }
 
 export async function signAccessToken(payload: Omit<JWTPayload, 'iat' | 'exp'>): Promise<string> {
-  return new jwt.SignJWT({ ...payload })
+  return new SignJWT({ ...payload })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime('15m')
@@ -26,7 +26,7 @@ export async function signAccessToken(payload: Omit<JWTPayload, 'iat' | 'exp'>):
 }
 
 export async function signRefreshToken(sub: string): Promise<string> {
-  return new jwt.SignJWT({ sub, type: 'refresh' })
+  return new SignJWT({ sub, type: 'refresh' })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime('7d')
@@ -35,7 +35,7 @@ export async function signRefreshToken(sub: string): Promise<string> {
 
 export async function verifyAccessToken(token: string): Promise<JWTPayload> {
   try {
-    const { payload } = await jwt.jwtVerify(token, JWT_SECRET);
+    const { payload } = await jwtVerify(token, JWT_SECRET);
     return payload as unknown as JWTPayload;
   } catch {
     throw new Error('Invalid or expired access token');
@@ -44,7 +44,7 @@ export async function verifyAccessToken(token: string): Promise<JWTPayload> {
 
 export async function verifyRefreshToken(token: string): Promise<{ sub: string }> {
   try {
-    const { payload } = await jwt.jwtVerify(token, REFRESH_SECRET);
+    const { payload } = await jwtVerify(token, REFRESH_SECRET);
     return payload as unknown as { sub: string };
   } catch {
     throw new Error('Invalid or expired refresh token');
