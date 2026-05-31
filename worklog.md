@@ -165,3 +165,38 @@ Stage Summary:
 - Dev server verified working on port 3000
 - Landing page renders correctly with "Espacify — Smart Space Organization" title
 - All 13 espacify components and 8 API routes intact
+
+---
+Task ID: 18
+Agent: Main Developer
+Task: Fix jose v6 import compatibility
+
+Work Log:
+- Fixed src/lib/auth.ts: replaced default import `import jwt from 'jose'` with named imports `{ SignJWT, jwtVerify }`
+- jose v6 removed default export, causing build error "Export default doesn't exist in target module"
+- Cleared Turbopack cache (.next) and restarted dev server
+- Verified register endpoint returns valid JWT tokens after fix
+
+Stage Summary:
+- Build error resolved: jose v6 named imports
+- All API routes functional again
+
+---
+Task ID: 19
+Agent: Main Developer
+Task: Pause project — remove external services (Supabase + Vercel)
+
+Work Log:
+- Deleted Vercel project "espacify" (prj_aYW6AVdyRBag1fozW78wig2lbkUQ) — HTTP 204 success
+- Paused Supabase project "espacify-db" (sfaxkdzieqvitxixlnwh) — waited for PAUSING → INACTIVE transition
+- Deleted Supabase project "espacify-db" — HTTP 200 success
+- GitHub repo remains intact: https://github.com/AQUASAURIO/espacify
+- Local code and SQLite database remain intact
+
+Stage Summary:
+- ⏸️ PROJECT PAUSED (not cancelled)
+- ✅ Supabase DB deleted (espacify-db)
+- ✅ Vercel deployment deleted
+- ✅ GitHub repo preserved (AQUASAURIO/espacify)
+- ✅ Local code preserved
+- To resume: recreate Supabase DB + Vercel project, then redeploy
