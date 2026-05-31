@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
+import Image from 'next/image';
 import { Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react';
 
 export function AuthPage() {
@@ -60,8 +61,7 @@ export function AuthPage() {
         {/* Logo */}
         <div className="flex items-center gap-3 mb-8">
           <div className="w-10 h-10 rounded-xl overflow-hidden bg-primary/10 flex items-center justify-center">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="Espacify" width={36} height={36} className="rounded-lg" />
+            <Image src="/logo.png" alt="Espacify" width={36} height={36} className="rounded-lg" />
           </div>
           <span className="text-2xl font-bold tracking-tight">Espacify</span>
         </div>
